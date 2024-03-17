@@ -1,0 +1,4 @@
+requests
+spacy
+python-dotenv
+pybit
