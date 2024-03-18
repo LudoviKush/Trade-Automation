@@ -52,7 +52,7 @@ def fetch_and_process_messages(session):
 
 
                     # Calculate the quantity based on the desired dollar amount ($50) and the current price
-                    desired_dollar_amount = 50
+                    desired_dollar_amount = 500
                     quantity = math.floor(desired_dollar_amount / price)
                     # Place a limit order using the extracted values
                     response = session.place_order(
