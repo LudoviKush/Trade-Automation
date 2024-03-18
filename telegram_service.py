@@ -10,8 +10,8 @@ from get_live_data import get_current_price
 load_dotenv()
 
 # Constants
-TELEGRAM_TOKEN = os.environ['TELEGRAM_TOKEN']
-TELEGRAM_CHANNELS = ['-1001525644349'] # -1929619649 bolt # -1001525644349 russian
+TELEGRAM_TOKEN = os.environ['TELEGRAM_TOKEN'] # -4187890246
+TELEGRAM_CHANNELS = ['-1929619649'] # -1929619649 bolt # -1001525644349 russian
 processed_update_ids = set()
 last_update_ids = {channel: 0 for channel in TELEGRAM_CHANNELS}
 
@@ -40,6 +40,7 @@ def fetch_and_process_messages(session):
                 continue
 
             text = remove_leading_slash(message.get("text"))
+            print(text)
 
             # Inside fetch_and_process_messages function
             if text:
