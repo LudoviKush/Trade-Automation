@@ -3,13 +3,15 @@ import logging
 from spacy_extraction import trade_details_extraction
 from dotenv import load_dotenv
 import os
+import math
+from get_live_data import get_current_price
 
 # Load environment variables
 load_dotenv()
 
 # Constants
 TELEGRAM_TOKEN = os.environ['TELEGRAM_TOKEN']
-TELEGRAM_CHANNELS = ['-4187890246']
+TELEGRAM_CHANNELS = ['-4187890246'] # -1929619649
 processed_update_ids = set()
 last_update_ids = {channel: 0 for channel in TELEGRAM_CHANNELS}
 
@@ -46,13 +48,19 @@ def fetch_and_process_messages(session):
                 print(f"Extracted information: {extracted_info}")
                 
                 try:
+                    price = get_current_price(extracted_info['couple'])
+
+
+                    # Calculate the quantity based on the desired dollar amount ($50) and the current price
+                    desired_dollar_amount = 50
+                    quantity = math.floor(desired_dollar_amount / price)
                     # Place a limit order using the extracted values
                     response = session.place_order(
                         category="linear",  # Use "inverse" for inverse contracts if needed
                         symbol=extracted_info['couple'],  # Correctly reference the extracted symbol
                         side=extracted_info['side'],  # Dynamically set based on management
                         orderType="Limit",  # "Market" for market orders
-                        qty="1",  # Quantity of the order, adjust as needed
+                        qty=quantity,  # Quantity of the order, adjust as needed based on your capital
                         price=extracted_info['target_5'],  # Using target 5 as the price for the limit order
                         timeInForce="GTC"  # Good Till Cancelled
                     )
